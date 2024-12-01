@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Category Management</h1>
+
+  <!-- Add New Category -->
+  <div class="add-category">
+    <input
+      type="text"
+      placeholder="Enter category name"
+      [(ngModel)]="newCategoryName"
+    />
+    <button (click)="addCategory()">Add Category</button>
+  </div>
+
+  <hr />
+
+  <!-- Category List -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.id }}</td>
+        <td *ngIf="editCategoryId !== category.id">{{ category.name }}</td>
+        <td *ngIf="editCategoryId === category.id">
+          <input [(ngModel)]="editCategoryName" />
+        </td>
+        <td>
+          <button *ngIf="editCategoryId !== category.id" (click)="startEditing(category)">Edit</button>
+          <button *ngIf="editCategoryId === category.id" (click)="updateCategory()">Save</button>
+          <button *ngIf="editCategoryId === category.id" (click)="cancelEditing()">Cancel</button>
+          <button (click)="deleteCategory(category.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

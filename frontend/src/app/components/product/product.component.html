@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>Product Management</h2>
+
+  <!-- Form Section -->
+  <form [formGroup]="productForm" (ngSubmit)="submitForm()">
+    <div>
+      <label>Product Name:</label>
+      <input formControlName="name" type="text" required />
+    </div>
+    <br>
+    <div>
+      <label>Category:</label>
+      <select formControlName="categoryId" required>
+        <option value="">Select Category</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+    <br><br>
+    <button type="submit" [disabled]="productForm.invalid">
+      {{ isEditing ? 'Update Product' : 'Add Product' }}
+    </button>
+    <button type="button" (click)="resetForm()" *ngIf="isEditing">Cancel</button>
+  </form>
+
+  <!-- Product List -->
+  <table>
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Category ID</th>
+        <th>Category Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.ProductId }}</td>
+        <td>{{ product.ProductName }}</td>
+        <td>{{ product.CategoryId }}</td>
+        <td>{{ product.CategoryName }}</td>
+        <td>
+          <button (click)="editProduct(product)">Edit</button>
+          <button (click)="deleteProduct(product.ProductId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="products.length < pageSize"
+    >
+      Next
+    </button>
+  </div>
+</div>
